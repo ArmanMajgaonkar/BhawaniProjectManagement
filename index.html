@@ -35,7 +35,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-            
+
             <a href="index.html" class="logo d-flex align-items-center me-auto">
 
             </a>
@@ -126,7 +126,6 @@
             </div>
 
         </section><!-- /About Section -->
-       
         <!-- Services Section -->
         <section id="services" class="services section light-background">
 
@@ -199,7 +198,6 @@
 
 
         </section><!-- /Services Section -->
-       
         <!-- Features Section -->
         <section id="features" class="features section">
 
@@ -405,8 +403,6 @@
 
         </section>
         <!-- /Testimonials Section -->
-       
-        
         <!-- Contact Section -->
         <section id="contact" class="contact section light-background">
 
@@ -450,36 +446,37 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
+                        <form id="contact-form" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
                             <div class="row gy-4">
 
                                 <div class="col-md-6">
-                                    <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
                                 </div>
 
-                                <div class="col-md-6 ">
-                                    <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                                </div>
-
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                                <div class="col-md-6">
+                                    <input type="email" name="email" class="form-control" id="email" placeholder="Your Email" required>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <textarea class="form-control" name="message" rows="4" placeholder="Message" required=""></textarea>
+                                    <input type="text" name="subject" class="form-control" id="subject" placeholder="Subject" required>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <textarea name="message" class="form-control" id="message" rows="4" placeholder="Message" required></textarea>
                                 </div>
 
                                 <div class="col-md-12 text-center">
-                                    <div class="loading">Loading</div>
-                                    <div class="error-message"></div>
-                                    <div class="sent-message">Your message has been sent. Thank you!</div>
+                                    <div class="loading" style="display: none;">Loading...</div>
+                                    <!--<div class="error-message" style="display: none; color: red;"></div>-->
+                                    <div class="sent-message" style="display: none; color: green;">Your message has been sent. Thank you!</div>
 
                                     <button type="submit">Send Message</button>
                                 </div>
 
                             </div>
                         </form>
-                    </div><!-- End Contact Form -->
+                    </div>
+                    <!-- End Contact Form -->
 
                 </div>
 
@@ -596,8 +593,8 @@
                             <div>
                                 <h4 class="title"><a href="#" class="stretched-link">Contact Information</a></h4>
                                 <p class="description">For any inquiries about this Privacy Policy, contact us at:</p>
-                                <p class="description"><strong>Email:</strong> info@bhawanipm.com</p>
-                                <p class="description"><strong>Address:</strong> Dubai, United Arab Emirates</p>
+                                <p class="description"><strong>Email:</strong> golu40247@gmail.com</p>
+                                <p class="description"><strong>Address:</strong> Bin Dasmal Building , 33, Dubai, United Arab Emirates</p>
                             </div>
                         </div>
                     </div><!-- End Item -->
@@ -724,8 +721,8 @@
                             <div>
                                 <h4 class="title"><a href="#" class="stretched-link">Contact Information</a></h4>
                                 <p class="description">For any inquiries about our Terms & Conditions, contact us:</p>
-                                <p class="description"><strong>Email:</strong> info@bhawanipm.com</p>
-                                <p class="description"><strong>Address:</strong> Dubai, United Arab Emirates</p>
+                                <p class="description"><strong>Email:</strong> golu40247@gmail.com</p>
+                                <p class="description"><strong>Address:</strong> Bin Dasmal Building , 33, Dubai, United Arab Emirates</p>
                             </div>
                         </div>
                     </div><!-- End Item -->
@@ -887,6 +884,55 @@
             }
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            emailjs.init("KhBzwwQbVYtipsCZM"); // Replace with your EmailJS Public Key
+
+            document.getElementById("contact-form").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Hide error messages at the start
+                //document.querySelector(".error-message").style.display = "none";
+                document.querySelector(".sent-message").style.display = "none";
+                document.querySelector(".loading").style.display = "block";
+
+                // Get form data
+                var formData = {
+                    name: document.getElementById("name").value,
+                    email: document.getElementById("email").value,
+                    subject: document.getElementById("subject").value,
+                    message: document.getElementById("message").value
+                };
+
+                // Send email via EmailJS
+                emailjs.send("service_iii2ey3", "template_thxtrvk", formData)
+                    .then(function (response) {
+                        console.log("Email sent successfully!", response);
+
+                        // Hide loading
+                        document.querySelector(".loading").style.display = "none";
+
+                        // Show success message and clear error message
+                        document.querySelector(".sent-message").style.display = "block";
+                        document.querySelector(".error-message").style.display = "none"; // Ensure error message is hidden
+
+                        // Clear form fields
+                        document.getElementById("contact-form").reset();
+                    }, function (error) {
+                        console.error("Failed to send email", error);
+
+                        // Hide loading
+                        document.querySelector(".loading").style.display = "none";
+
+                        // Show error message
+                        document.querySelector(".error-message").textContent = "Failed to send message. Please try again.";
+                        document.querySelector(".error-message").style.display = "block";
+                    });
+            });
+        });
+    </script>
+
 
 </body>
 
